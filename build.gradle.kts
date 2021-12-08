@@ -30,9 +30,15 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.AppImage)
             packageName = "DiscordEmojiManager"
             packageVersion = "1.0.0"
+            description = "DiscordEmojiManager"
+            vendor = "Arsoban"
+
+            windows {
+                menuGroup = "DiscordEmojiManager"
+            }
         }
     }
 }
