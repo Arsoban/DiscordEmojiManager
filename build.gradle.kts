@@ -19,6 +19,7 @@ repositories {
 dependencies {
     implementation(compose.desktop.currentOs)
     implementation("io.insert-koin:koin-core:3.1.4")
+    implementation("org.javacord:javacord:3.3.2")
 }
 
 tasks.withType<KotlinCompile>() {
