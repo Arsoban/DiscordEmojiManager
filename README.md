@@ -16,11 +16,21 @@ If you want to download emojis, paste server id you want to download emojis at l
 
 Paste a folder path below, in this folder emojis will be downloaded.
 
+Click download emojis.
+
 ### Uploading
 
-If you want to upload emojis, paste server id you want to download emojis at right text field.
+If you want to upload emojis, paste server id you want to download emojis at center text field.
 
 Paste a folder path below, emojis will be uploaded from this folder.
+
+Click upload emojis.
+
+### Deleting all
+
+If you want to delete all emojis, paster server id you want to delete all emojis at right text field.
+
+Click delete all emojis.
 
 ## Linux and MacOS builds
 
