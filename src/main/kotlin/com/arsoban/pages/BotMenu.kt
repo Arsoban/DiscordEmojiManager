@@ -22,6 +22,7 @@ import org.koin.core.qualifier.named
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.util.NoSuchElementException
 import kotlin.concurrent.thread
 
 class BotMenu : KoinComponent {
@@ -108,22 +109,33 @@ class BotMenu : KoinComponent {
                             onClick = {
 
                                 thread {
-                                    val server = api.getServerById(emojiData.serverIdToDownloadEmojis.value).get()
 
-                                    server.customEmojis.forEach { emoji ->
+                                    try {
 
-                                        val file = File(
-                                            "${emojiData.pathToSave.value}/${emoji.name}.${
-                                                if (!emoji.image.url.toString().endsWith(".gif")) "png" else "gif"
-                                            }"
-                                        )
+                                        val server = api.getServerById(emojiData.serverIdToDownloadEmojis.value).get()
 
-                                        file.writeBytes(emoji.image.asByteArray().get())
+                                        server.customEmojis.forEach { emoji ->
 
-                                    }
+                                            val file = File(
+                                                "${emojiData.pathToSave.value}/${emoji.name}.${
+                                                    if (!emoji.image.url.toString().endsWith(".gif")) "png" else "gif"
+                                                }"
+                                            )
 
-                                    coroutineScope.launch {
-                                        scaffoldState.snackbarHostState.showSnackbar("All emojis downloaded!")
+                                            file.writeBytes(emoji.image.asByteArray().get())
+
+                                        }
+
+                                        coroutineScope.launch {
+                                            scaffoldState.snackbarHostState.showSnackbar("All emojis downloaded!")
+                                        }
+
+                                    } catch (exc: NoSuchElementException) {
+
+                                        coroutineScope.launch {
+                                            scaffoldState.snackbarHostState.showSnackbar("You don't specified server id")
+                                        }
+
                                     }
                                 }
 
@@ -194,31 +206,37 @@ class BotMenu : KoinComponent {
                             onClick = {
 
                                 thread {
-                                    val server = api.getServerById(emojiData.serverIdToUploadEmojis.value).get()
+                                    try {
+                                        val server = api.getServerById(emojiData.serverIdToUploadEmojis.value).get()
 
-                                    val directory = File(emojiData.pathToUpload.value)
+                                        val directory = File(emojiData.pathToUpload.value)
 
-                                    if (directory.isDirectory) {
-                                        directory.listFiles().forEach { file ->
+                                        if (directory.isDirectory) {
+                                            directory.listFiles().forEach { file ->
 
-                                            if (file.absolutePath.endsWith(".png") || file.absolutePath.endsWith(".gif")) {
+                                                if (file.absolutePath.endsWith(".png") || file.absolutePath.endsWith(".gif")) {
 
-                                                server.createCustomEmojiBuilder().apply {
-                                                    setName(file.name.dropLast(4))
-                                                    setImage(file)
-                                                }.create().join()
+                                                    server.createCustomEmojiBuilder().apply {
+                                                        setName(file.name.dropLast(4))
+                                                        setImage(file)
+                                                    }.create().join()
+
+                                                }
 
                                             }
 
-                                        }
 
-
-                                        coroutineScope.launch {
-                                            scaffoldState.snackbarHostState.showSnackbar("All emojis uploaded!")
+                                            coroutineScope.launch {
+                                                scaffoldState.snackbarHostState.showSnackbar("All emojis uploaded!")
+                                            }
+                                        } else {
+                                            coroutineScope.launch {
+                                                scaffoldState.snackbarHostState.showSnackbar("You specified not a directory")
+                                            }
                                         }
-                                    } else {
+                                    } catch (exc: NoSuchElementException) {
                                         coroutineScope.launch {
-                                            scaffoldState.snackbarHostState.showSnackbar("You specified not a directory")
+                                            scaffoldState.snackbarHostState.showSnackbar("You don't specified server id")
                                         }
                                     }
                                 }
