@@ -37,7 +37,12 @@ compose.desktop {
             vendor = "Arsoban"
 
             windows {
+                iconFile.set(project.file("src/main/resources/images/thinking.ico"))
                 menuGroup = "DiscordEmojiManager"
+            }
+
+            linux {
+                iconFile.set(project.file("src/main/resources/images/thinking.png"))
             }
         }
     }

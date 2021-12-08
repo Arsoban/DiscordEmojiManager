@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -113,7 +114,8 @@ fun main() = application {
         title = "DiscordEmojiManager",
         resizable = false,
         undecorated = true,
-        state = WindowState(size = DpSize(800.dp, 800.dp))
+        state = WindowState(size = DpSize(800.dp, 800.dp)),
+        icon = painterResource("images/thinking.svg")
     ) {
 
         val mainAppModule = module {
