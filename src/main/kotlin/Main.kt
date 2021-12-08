@@ -1,11 +1,15 @@
 import androidx.compose.material.MaterialTheme
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -82,11 +86,19 @@ fun App() {
             topBar = scaffoldInitialization.topAppBar
         ) {
 
-            SplashScreen().splashScreen()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(interfaceColor.backgroundColor)
+            ) {
 
-            MainMenu().mainMenu()
+                SplashScreen().splashScreen()
 
-            BotMenu().botMenu()
+                MainMenu().mainMenu()
+
+                BotMenu().botMenu()
+
+            }
 
         }
 

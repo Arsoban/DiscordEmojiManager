@@ -1,5 +1,6 @@
 package com.arsoban.pages
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.LocalTextSelectionColors
@@ -42,7 +43,9 @@ class BotMenu : KoinComponent {
     @Composable
     fun botMenu() {
 
-        if (whatIsOpened.botMenu.value) {
+        AnimatedVisibility(
+            visible = whatIsOpened.botMenu.value
+        ) {
 
             Box(
                 modifier = Modifier

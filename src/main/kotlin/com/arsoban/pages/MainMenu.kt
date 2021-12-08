@@ -1,5 +1,6 @@
 package com.arsoban.pages
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -45,7 +46,9 @@ class MainMenu : KoinComponent {
     @Composable
     fun mainMenu() {
 
-        if (whatIsOpened.mainMenu.value) {
+        AnimatedVisibility(
+            visible = whatIsOpened.mainMenu.value
+        ) {
 
             Box(
                 modifier = Modifier
