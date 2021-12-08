@@ -129,7 +129,7 @@ class MainMenu : KoinComponent {
                                                 } catch (exc: CompletionException) {
 
                                                     coroutineScope.launch {
-                                                        scaffoldState.snackbarHostState.showSnackbar("Error, please specify the token")
+                                                        scaffoldState.snackbarHostState.showSnackbar("Error, you don't specified token, or its wrong")
                                                     }
 
                                                 }

@@ -59,6 +59,7 @@ fun App() {
         remember { mutableStateOf("") },
         remember { mutableStateOf("") },
         remember { mutableStateOf("") },
+        remember { mutableStateOf("") },
         remember { mutableStateOf("") }
     )
 

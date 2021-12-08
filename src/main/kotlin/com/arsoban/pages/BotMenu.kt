@@ -21,8 +21,6 @@ import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import org.koin.core.qualifier.named
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.util.NoSuchElementException
 import kotlin.concurrent.thread
 
@@ -136,7 +134,7 @@ class BotMenu : KoinComponent {
                                     } catch (exc: NoSuchElementException) {
 
                                         coroutineScope.launch {
-                                            scaffoldState.snackbarHostState.showSnackbar("You don't specified server id")
+                                            scaffoldState.snackbarHostState.showSnackbar("You don't specified server id or its wrong")
                                         }
 
                                     }
@@ -239,7 +237,7 @@ class BotMenu : KoinComponent {
                                         }
                                     } catch (exc: NoSuchElementException) {
                                         coroutineScope.launch {
-                                            scaffoldState.snackbarHostState.showSnackbar("You don't specified server id")
+                                            scaffoldState.snackbarHostState.showSnackbar("You don't specified server id or its wrong")
                                         }
                                     }
                                 }
@@ -252,6 +250,73 @@ class BotMenu : KoinComponent {
                                 .align(Alignment.CenterHorizontally)
                         ) {
                             Text("Upload emojis")
+                        }
+
+                    }
+
+
+                    Column(
+                        modifier = Modifier
+                            .padding(6.dp)
+                    ) {
+
+                        val selectionColors = TextSelectionColors(
+                            handleColor = interfaceColor.secondColor,
+                            backgroundColor = interfaceColor.secondColor.copy(0.4f)
+                        )
+
+                        CompositionLocalProvider(LocalTextSelectionColors provides selectionColors) {
+
+                            OutlinedTextField(
+                                value = emojiData.serverIdToDeleteEmojis.value,
+                                onValueChange = { text ->
+                                    emojiData.serverIdToDeleteEmojis.value = text
+                                },
+                                label = {
+                                    Text("Server ID")
+                                },
+                                colors = TextFieldDefaults.outlinedTextFieldColors(
+                                    textColor = interfaceColor.firstColor,
+                                    focusedLabelColor = interfaceColor.firstColor,
+                                    focusedBorderColor = interfaceColor.secondColor,
+                                    unfocusedLabelColor = interfaceColor.thirdColor
+                                )
+                            )
+
+                        }
+
+                        Button(
+                            onClick = {
+
+                                thread {
+                                    try {
+
+                                        val server = api.getServerById(emojiData.serverIdToDeleteEmojis.value).get()
+
+                                        server.customEmojis.forEach { emoji ->
+
+                                            emoji.delete().join()
+
+                                        }
+
+                                        coroutineScope.launch {
+                                            scaffoldState.snackbarHostState.showSnackbar("Deleted all emojis!")
+                                        }
+                                    } catch (exc: NoSuchElementException) {
+                                        coroutineScope.launch {
+                                            scaffoldState.snackbarHostState.showSnackbar("You don't specified server id or its wrong")
+                                        }
+                                    }
+                                }
+
+                            },
+                            colors = ButtonDefaults.buttonColors(
+                                backgroundColor = interfaceColor.firstColor
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text("Delete all emojis")
                         }
 
                     }
