@@ -193,7 +193,7 @@ class BotMenu : KoinComponent {
                                     emojiData.pathToUpload.value = text
                                 },
                                 label = {
-                                    Text("Path for upload emojis")
+                                    Text("Path to upload emojis")
                                 },
                                 colors = TextFieldDefaults.outlinedTextFieldColors(
                                     textColor = interfaceColor.firstColor,
